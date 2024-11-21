@@ -12,7 +12,7 @@ import { SignInFlow } from "../types";
 import { Separator } from "@/components/ui/separator";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
-import { in } from '../../../../.next/server/vendor-chunks/next';
+// import { in } from '../../../../.next/server/vendor-chunks/next';
 
 interface SignUpCardProps {
   setState: (state: SignInFlow) => void;
@@ -51,7 +51,9 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
           <Input
             disabled={false}
             value={password}
-            onChange={(e) => {setPassword(e.target.value);}}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
             placeholder="Password"
             type="password"
             required
@@ -59,7 +61,9 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
           <Input
             disabled={false}
             value={confirmPassword}
-            onChange={(e) => {setConfirmPassword(e.target.value);}}
+            onChange={(e) => {
+              setConfirmPassword(e.target.value);
+            }}
             placeholder="Confirm Password"
             type="password"
             required
