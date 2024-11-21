@@ -3,8 +3,6 @@ import {
     createRouteMatcher, 
     isAuthenticatedNextjs,
     nextjsMiddlewareRedirect } from "@convex-dev/auth/nextjs/server";
-import { request } from "http";
-import { is } from '../.next/server/vendor-chunks/next';
 
 const isPublicPage = createRouteMatcher(["/auth"]);
  
