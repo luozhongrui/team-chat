@@ -1,4 +1,6 @@
 "use client";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -13,30 +15,32 @@ import { useCreateWorkspaceModal } from "../store/use-create-workspace-modal";
 import { useCreateWorkspace } from "../api/use-create-workspace";
 
 export const CreateWorkspaceModal = () => {
+  const router = useRouter();
   const [open, setOpen] = useCreateWorkspaceModal();
-  const { mutate } = useCreateWorkspace();
+  const { mutate, isPending } = useCreateWorkspace();
+
+  const [name, setName] = useState("");
 
   const heandleClose = () => {
     setOpen(false);
+    setName("");
     // TODO: Clear form
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     mutate(
-      { name: "Workspace 1" },
+      { name },
       {
-        onSuccess: () => {
-          // Redirect to the workspace
-        },
-        onError: () => {
-          // Show error
-        },
-        onSettled: () => {
-          // Reset form
+        onSuccess(id) {
+          console.log(id);
+          router.push(`/workspaces/${id}`);
+          heandleClose();
         },
       }
     );
   };
+
   return (
     <Dialog open={open} onOpenChange={heandleClose}>
       <DialogContent>
@@ -46,17 +50,23 @@ export const CreateWorkspaceModal = () => {
             Create a new workspace to start collaborating with your team.
           </DialogDescription>
         </DialogHeader>
-        <form style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+        >
           <Input
-            disabled={false}
-            value={""}
+            disabled={isPending}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
             autoFocus
             minLength={3}
             placeholder="Workspace Name e.g. 'work', 'Personal', 'Team'"
           />
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button type="submit">Create</Button>
+            <Button disabled={isPending} type="submit">
+              Create
+            </Button>
           </div>
         </form>
       </DialogContent>

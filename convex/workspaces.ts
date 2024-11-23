@@ -21,6 +21,9 @@ export const create = mutation({
       userId,
       joinCode,
     });
+
+    // const workspace = await ctx.db.get(workspaceId);
+   
     return workspaceId;
   },
 });
