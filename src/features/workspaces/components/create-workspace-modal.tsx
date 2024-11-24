@@ -1,4 +1,5 @@
 "use client";
+import { Toaster } from "@/components/ui/sonner";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
@@ -13,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useCreateWorkspaceModal } from "../store/use-create-workspace-modal";
 import { useCreateWorkspace } from "../api/use-create-workspace";
+import { toast } from "sonner";
 
 export const CreateWorkspaceModal = () => {
   const router = useRouter();
@@ -21,7 +23,7 @@ export const CreateWorkspaceModal = () => {
 
   const [name, setName] = useState("");
 
-  const heandleClose = () => {
+  const handleClose = () => {
     setOpen(false);
     setName("");
     // TODO: Clear form
@@ -33,16 +35,16 @@ export const CreateWorkspaceModal = () => {
       { name },
       {
         onSuccess(id) {
-          console.log(id);
-          router.push(`/workspaces/${id}`);
-          heandleClose();
+          toast.success("Workspace created");
+          router.push(`/workspace/${id}`);
+          handleClose();
         },
       }
     );
   };
 
   return (
-    <Dialog open={open} onOpenChange={heandleClose}>
+    <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Add a Workspace</DialogTitle>
