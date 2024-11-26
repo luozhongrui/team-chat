@@ -30,7 +30,10 @@ export const WorkspaceSection = ({
           className="px-2 text-sm text-[#f9edffcc] shrink-0 size-6"
         >
           <FaCaretDown
-            className={cn("size-4 transition-transform ", on && "-rotate-90")}
+            className={cn(
+              "size-4 transition-transform -rotate-90",
+              on && "rotate-0"
+            )}
           />
         </Button>
         <Button
