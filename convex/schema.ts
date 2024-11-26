@@ -1,6 +1,7 @@
 import { authTables } from "@convex-dev/auth/server";
 import { defineSchema, defineTable } from "convex/server";
 import {v} from "convex/values";
+import { Check } from 'lucide-react';
 
 const schema = defineSchema({
    ...authTables,
@@ -17,6 +18,11 @@ const schema = defineSchema({
    .index("by_user_id", ["userId"])
    .index("by_workspace_id", ["workspaceId"])
    .index("by_user_id_and_workspace_id", ["userId", "workspaceId"]),
+   channels: defineTable({
+      name: v.string(),
+      workspaceId: v.id("workspaces"),
+   })
+   .index("by_workspace_id", ["workspaceId"]),
 });
 
 export default schema;
