@@ -46,7 +46,7 @@ export const CreateChannelModal = () => {
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create a Channel</DialogTitle>
+          <DialogTitle>add a Channel</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
