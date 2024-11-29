@@ -24,7 +24,7 @@ const JoinPage = () => {
 
   useEffect(() => {
     if (isMember) {
-      router.push(`/workspaces/${workspaceId}`);
+      router.push(`/workspace/${workspaceId}`);
     }
   }, [isMember, workspaceId, router]);
 
