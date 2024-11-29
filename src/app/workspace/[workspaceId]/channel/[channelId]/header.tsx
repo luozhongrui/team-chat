@@ -8,25 +8,55 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
   DialogClose,
 } from "@/components/ui/dialog";
 import { TrashIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useChannelId } from "@/hooks/use-channel-id";
 import { useUpdateChannel } from "@/features/channels/api/use-update-channel";
+import { useRemoveChannel } from "@/features/channels/api/use-remove-channel";
 import { toast } from "sonner";
+import { useConfirm } from "@/hooks/use-confirm";
+import { useRouter } from "next/navigation";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
 
 interface HeaderProps {
   title: string;
 }
 
 export const Header = ({ title }: HeaderProps) => {
+  const router = useRouter();
   const channelId = useChannelId();
+  const workspaceId = useWorkspaceId();
+  const [ConfirmDialog, Confirm] = useConfirm(
+    "Are you sure you want to delete this channel?",
+    "This action cannot be undone"
+  );
   const [value, setValue] = useState(title);
   const [editOpen, setEditOpen] = useState(false);
   const { mutate: updateChannel, isPending: updateingChannel } =
     useUpdateChannel();
+
+  const { mutate: removeChannel, isPending: removingChannel } =
+    useRemoveChannel();
+
+  const handelDelete = async () => {
+    const ok = await Confirm();
+    if (!ok) return;
+
+    removeChannel(
+      { id: channelId },
+      {
+        onSuccess: () => {
+          toast.success("Channel deleted successfully");
+          router.push(`/workspace/${workspaceId}`);
+        },
+        onError: () => {
+          toast.error("Failed to delete channel");
+        },
+      }
+    );
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\s+/g, "-").toLowerCase();
@@ -51,6 +81,7 @@ export const Header = ({ title }: HeaderProps) => {
 
   return (
     <div className="bg-white border-b h-[49px] flex items-center px-4 overflow-hidden">
+      <ConfirmDialog />
       <Dialog>
         <DialogTrigger asChild>
           <Button
@@ -94,18 +125,23 @@ export const Header = ({ title }: HeaderProps) => {
                     maxLength={80}
                     placeholder="e.g. marketing"
                   />
+
+                  <DialogFooter>
+                    <DialogClose asChild>
+                      <Button variant="outline" disabled={updateingChannel}>
+                        Cancel
+                      </Button>
+                    </DialogClose>
+                    <Button disabled={updateingChannel}>Save</Button>
+                  </DialogFooter>
                 </form>
-                <DialogFooter>
-                  <DialogClose asChild>
-                    <Button variant="outline" disabled={updateingChannel}>
-                      Cancel
-                    </Button>
-                  </DialogClose>
-                  <Button disabled={updateingChannel}>Save</Button>
-                </DialogFooter>
               </DialogContent>
             </Dialog>
-            <button className="flex items-center gap-x-2 px-5 py-4 bg-white rounded-lg cursor-pointer border hover: bg-gray-50 text-rose-600">
+            <button
+              onClick={handelDelete}
+              disabled={removingChannel}
+              className="flex items-center gap-x-2 px-5 py-4 bg-white rounded-lg cursor-pointer border hover: bg-gray-50 text-rose-600"
+            >
               <TrashIcon className="size-4" />
               <p className="text-sm font-semibold">Delete Channel</p>
             </button>
