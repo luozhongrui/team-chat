@@ -1,28 +1,17 @@
 import { useMutation } from "convex/react";
 import { useCallback, useMemo, useState } from "react";
 import { api } from "../../../../convex/_generated/api";
-import { Id } from "../../../../convex/_generated/dataModel";
-import ChannelIdPage from '../../../app/workspace/[workspaceId]/channel/[channelId]/page';
 
-type RequestType = { 
-    body: string,
-     image?: Id<"_storage">,
-     workspaceId: Id<"workspaces">,
-     channelId?: Id<"channels">,
-     parentMessageId?: Id<"messages">,
-     // TODO add conversationId
-     conversationId?: Id<"conversations">,
-    };
-type ResponseType = Id<"messages"> | null;
+type ResponseType = string | null;
 
 type Options = {
-    onSuccess?: (data: Id<"workspaces">) => void;
+    onSuccess?: (data: any) => void;
     onError?: (error: Error) => void;
     onSettled?: () => void;
     throwError?: boolean;
 };
 
-export const useCreateMessage = (options: Options = {}) => {
+export const useGenerateUploadUrl = (options: Options = {}) => {
     const [data, setData] = useState<ResponseType>(null);
     const [error, setError] = useState<Error | null>(null);
     const [status, setStatus] = useState<"success" | "error" | "settled" | "pending" | null>(null);
@@ -32,15 +21,15 @@ export const useCreateMessage = (options: Options = {}) => {
     const isError = useMemo(() => status === "error", [status]);
     const isSettled = useMemo(() => status === "settled", [status]);
 
-    const mutation = useMutation(api.messages.create);
+    const mutation = useMutation(api.upload.generateUpload);
 
-    const mutate = useCallback(async (values: RequestType, operations?: Options) => {
+    const mutate = useCallback(async (_values: {}, operations?: Options) => {
         try {
             setData(null);
             setError(null);
             setStatus("pending");
 
-            const response = await mutation(values);
+            const response = await mutation();
             setData(response);
             setStatus("success");
             
