@@ -7,7 +7,7 @@ type RequestType = { id: Id<"channels"> };
 type ResponseType = Id<"channels"> | null;
 
 type Options = {
-    onSuccess?: (data: RequestType) => void;
+    onSuccess?: (data: ResponseType) => void;
     onError?: (error: Error) => void;
     onSettled?: () => void;
     throwError?: boolean;
