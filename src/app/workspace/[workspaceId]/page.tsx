@@ -1,12 +1,13 @@
 "use client";
 import { useMemo, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, redirect } from "next/navigation";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useCreateChannelModal } from "@/features/channels/store/use-create-channel-modal";
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
 import { useGetChannels } from "@/features/channels/api/use-get-channels";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
 import { Loader, TriangleAlert } from "lucide-react";
+import { useConvexAuth } from "convex/react";
 
 const WorkspaceIdPage = () => {
   const router = useRouter();
@@ -54,6 +55,16 @@ const WorkspaceIdPage = () => {
     router,
     workspaceId,
   ]);
+
+  const { isAuthenticated, isLoading } = useConvexAuth();
+
+  if (isLoading) {
+    return <div>加载中...</div>;
+  }
+
+  if (!isAuthenticated) {
+    redirect("/");
+  }
 
   if (workspaceLoading || channelsLoading || memberLoading)
     return (
