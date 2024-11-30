@@ -1,17 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Team Chat Application
+
+A real-time team chat application built with Next.js and Convex, featuring workspaces, channels, and direct messaging capabilities.
+
+## Tech Stack
+
+- [Next.js](https://nextjs.org) - React framework
+- [Convex](https://docs.convex.dev) - Backend and real-time data sync
+- [TypeScript](https://www.typescriptlang.org) - Type safety
+- [Tailwind CSS](https://tailwindcss.com) - Styling
+- [Radix UI](https://www.radix-ui.com/) - UI components
+- [Geist Font](https://vercel.com/font) - Typography
+
+## Features
+
+- Real-time messaging
+- Workspace management
+- Channel creation and management
+- Direct messaging
+- File uploads
+- Emoji reactions
+- Thread replies
+- Member management
+- Rich text editor
+- Authentication (Google, GitHub, Email)
 
 ## Getting Started
+
+1. Clone the repository
+2. Install dependencies:
+
+```bash
+npm install
+# or
+bun install
+```
 
 First, run the development server:
 
 ```bash
 npm run dev
 # or
-yarn dev
+bun run dev
+```
+
+Additionally, start the backend server:
+
+```bash
+npx convex dev
 # or
-pnpm dev
-# or
-bun dev
+bunx convex dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -34,3 +71,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
