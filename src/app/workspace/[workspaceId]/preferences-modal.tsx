@@ -2,7 +2,6 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -18,7 +17,6 @@ import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useConfirm } from "@/hooks/use-confirm";
-import { title } from "process";
 
 interface PreferencesModalProps {
   open: boolean;

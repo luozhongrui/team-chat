@@ -1,5 +1,5 @@
 import Quill from "quill";
-import { use, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface RendererProps {
   value: string;

@@ -7,7 +7,6 @@ import { useChannelId } from "@/hooks/use-channel-id";
 import { toast } from "sonner";
 import { useGenerateUploadUrl } from "@/features/upload/api/use-generate-upload-url";
 import { Id } from "../../../../../../convex/_generated/dataModel";
-import { v } from "convex/values";
 
 const Editor = dynamic(() => import("@/components/editor"), { ssr: false });
 
