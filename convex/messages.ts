@@ -51,9 +51,75 @@ const getMember = async (
         .query("members")
         .withIndex("by_user_id_and_workspace_id", (q) =>
              q.eq("userId", userId).eq("workspaceId", workspaceId)).unique();
-      }
+};
 
-      export const get = query({
+
+export const remove = mutation({
+    args: {
+        id: v.id("messages"),
+    },
+    handler: async (ctx, args) => {
+        const userId = await auth.getUserId(ctx);
+        if (!userId) {
+            throw new Error("Not authenticated");
+        }
+
+        const message = await ctx.db.get(args.id);
+        if (!message) {
+            throw new Error("Message not found");
+        }
+
+        const member = await getMember(ctx, message.workspaceId, userId);
+        if (!member) {
+            throw new Error("Not a member of this workspace");
+        }
+
+        if (!member|| message.memberId !== member._id) {
+            throw new Error("Not the author of this message");
+        }
+
+        await ctx.db.delete(args.id);
+
+        return args.id;
+    },
+});
+
+
+export const update = mutation({
+    args: {
+        id: v.id("messages"),
+        body: v.string(),
+    },
+    handler: async (ctx, args) => {
+        const userId = await auth.getUserId(ctx);
+        if (!userId) {
+            throw new Error("Not authenticated");
+        }
+
+        const message = await ctx.db.get(args.id);
+        if (!message) {
+            throw new Error("Message not found");
+        }
+
+        const member = await getMember(ctx, message.workspaceId, userId);
+        if (!member) {
+            throw new Error("Not a member of this workspace");
+        }
+
+        if (!member|| message.memberId !== member._id) {
+            throw new Error("Not the author of this message");
+        }
+
+        await ctx.db.patch(args.id, {
+            body: args.body,
+            updatedAt: Date.now(),
+        });
+
+        return args.id;
+    },
+});
+
+export const get = query({
         args: {
             channelId: v.optional(v.id("channels")),
             conversationId: v.optional(v.id("conversations")),
