@@ -1,5 +1,5 @@
 import { differenceInMinutes, format, isToday, isYesterday } from "date-fns";
-import { GetMessagesReturnType } from "@/features/members/api/use-get-messages";
+import { GetMessagesReturnType } from "@/features/messages/api/use-get-messages";
 import { Message } from "./message";
 import { ChannelHero } from "./channel-hero";
 import { useState } from "react";
@@ -61,46 +61,12 @@ export const MessageList = ({
   );
 
   return (
-    <div
-      style={{
-        flex: 1,
-        display: "flex",
-        flexDirection: "column-reverse",
-        paddingBottom: "1rem",
-        overflowY: "auto",
-      }}
-      className="messages-scrollbar"
-    >
+    <div className="flex-1 flex flex-col-reverse pb-4 overflow-y-auto messages-scrollbar">
       {Object.entries(groupedMessages || {}).map(([dateKey, messages]) => (
         <div key={dateKey}>
-          <div
-            style={{
-              textAlign: "center",
-              margin: "0.5rem 0",
-              position: "relative",
-            }}
-          >
-            <hr
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: 0,
-                right: 0,
-                borderTop: "1px solid #D1D5DB",
-              }}
-            />
-            <span
-              style={{
-                position: "relative",
-                display: "inline-block",
-                backgroundColor: "white",
-                padding: "0.25rem 1rem",
-                borderRadius: "9999px",
-                fontSize: "0.75rem",
-                border: "1px solid #D1D5DB",
-                boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
-              }}
-            >
+          <div className="text-center my-2 relative">
+            <hr className="absolute top-1/2 left-0 right-0 border-t border-gray-300" />
+            <span className="relative inline-block bg-white px-4 py-1 rounded-full text-xs border border-gray-300 shadow-sm">
               {formatDateLabel(dateKey)}
             </span>
           </div>
@@ -157,34 +123,9 @@ export const MessageList = ({
         }}
       />
       {isLoadingMore && (
-        <div
-          style={{
-            textAlign: "center",
-            margin: "0.5rem 0",
-            position: "relative",
-          }}
-        >
-          <hr
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: 0,
-              right: 0,
-              borderTop: "1px solid #D1D5DB",
-            }}
-          />
-          <span
-            style={{
-              position: "relative",
-              display: "inline-block",
-              backgroundColor: "white",
-              padding: "0.25rem 1rem",
-              borderRadius: "9999px",
-              fontSize: "0.75rem",
-              border: "1px solid #D1D5DB",
-              boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
-            }}
-          >
+        <div className="text-center my-2 relative">
+          <hr className="absolute top-1/2 left-0 right-0 border-t border-gray-300" />
+          <span className="relative inline-block bg-white px-4 py-1 rounded-full text-xs border border-gray-300 shadow-sm">
             <Loader className="size-4 animate-spin" />
           </span>
         </div>

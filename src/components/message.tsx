@@ -13,6 +13,8 @@ import { Toolbar } from "./toolbar";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useConfirm } from "@/hooks/use-confirm";
+import { usePanel } from "@/hooks/use-panel";
+import { useQueryState } from "nuqs";
 
 const Editor = dynamic(() => import("@/components/editor"), { ssr: false });
 
@@ -66,6 +68,7 @@ export const Message = ({
   threadImage,
   threadTimestamp,
 }: MessageProps) => {
+  const { parentMessageId, onOpenMessage, onClose } = usePanel();
   const [ConfirmDialog, Confirm] = useConfirm(
     "Delete message",
     "Are you sure you want to delete this message?"
@@ -88,8 +91,8 @@ export const Message = ({
         value,
       },
       {
-        optimisticUpdate: (store) => {
-          // 在这里可以添加乐观更新逻辑
+        onSuccess: () => {
+          toast.success("Reaction toggled");
         },
         onError: () => {
           toast.error("Failed to toggle reaction");
@@ -100,13 +103,16 @@ export const Message = ({
 
   const handleDelete = async () => {
     const ok = await Confirm();
+
     if (!ok) return;
     removeMessage(
       { id },
       {
         onSuccess: () => {
           toast.success("Message deleted");
-          // TODO: close thread if opened
+          if (parentMessageId === id) {
+            onClose();
+          }
         },
         onError: () => {
           toast.error("Failed to delete message");
@@ -129,6 +135,8 @@ export const Message = ({
       }
     );
   };
+
+  const [value, setValue] = useQueryState("param");
 
   if (isCompact) {
     return (
@@ -176,7 +184,7 @@ export const Message = ({
               isAuthor={isAuthor}
               isPending={false}
               handleEdit={() => setEditingId(id)}
-              handleThread={() => {}}
+              handleThread={() => onOpenMessage(id)}
               handleDelete={handleDelete}
               handleReaction={handleReaction}
               hidnThreadButton={hidnThreadButton}
@@ -245,7 +253,7 @@ export const Message = ({
             isAuthor={isAuthor}
             isPending={isPending}
             handleEdit={() => setEditingId(id)}
-            handleThread={() => {}}
+            handleThread={() => onOpenMessage(id)}
             handleDelete={handleDelete}
             handleReaction={handleReaction}
             hidnThreadButton={hidnThreadButton}
