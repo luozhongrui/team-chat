@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Id } from "../../convex/_generated/dataModel";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
+import { Loader } from "lucide-react";
 
 const TIME_THRESHOLD = 5;
 
@@ -138,6 +139,57 @@ export const MessageList = ({
           })}
         </div>
       ))}
+      <div
+        className="h-1"
+        ref={(el) => {
+          if (el) {
+            const observer = new IntersectionObserver(
+              ([entry]) => {
+                if (entry.isIntersecting && canLoadMore) {
+                  loadMore();
+                }
+              },
+              { threshold: 1.0 }
+            );
+            observer.observe(el);
+            return () => observer.disconnect();
+          }
+        }}
+      />
+      {isLoadingMore && (
+        <div
+          style={{
+            textAlign: "center",
+            margin: "0.5rem 0",
+            position: "relative",
+          }}
+        >
+          <hr
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: 0,
+              right: 0,
+              borderTop: "1px solid #D1D5DB",
+            }}
+          />
+          <span
+            style={{
+              position: "relative",
+              display: "inline-block",
+              backgroundColor: "white",
+              padding: "0.25rem 1rem",
+              borderRadius: "9999px",
+              fontSize: "0.75rem",
+              border: "1px solid #D1D5DB",
+              boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
+            }}
+          >
+            <Loader className="size-4 animate-spin" />
+          </span>
+        </div>
+      )}
+
       {variant === "channel" && channelName && channelCreationTime && (
         <ChannelHero name={channelName} creationTime={channelCreationTime} />
       )}
