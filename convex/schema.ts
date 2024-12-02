@@ -1,8 +1,6 @@
 import { authTables } from "@convex-dev/auth/server";
 import { defineSchema, defineTable } from "convex/server";
 import {v} from "convex/values";
-import { Check } from 'lucide-react';
-import { update } from "./channels";
 
 const schema = defineSchema({
    ...authTables,

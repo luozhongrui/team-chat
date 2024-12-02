@@ -7,7 +7,7 @@ import {api} from "../../../../convex/_generated/api";
 const BATCH_SIZE = 20;
 
 interface UseGetMessagesProps {
-    channelId: Id<"channels">;
+    channelId?: Id<"channels">;
     conversationId?: Id<"conversations">;
     parentMessageId?: Id<"messages">;
 }
