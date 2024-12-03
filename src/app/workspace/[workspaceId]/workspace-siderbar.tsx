@@ -16,10 +16,10 @@ import { SidebarItem } from "./sidebar-item";
 import { UserItem } from "./user-item";
 import { useCreateChannelModal } from "@/features/channels/store/use-create-channel-modal";
 import { useChannelId } from "@/hooks/use-channel-id";
-import {useMemberId} from "@/hooks/use-member-id";
+import { useMemberId } from "@/hooks/use-member-id";
 
 export const WorkspaceSidebar = () => {
-    const memberId = useMemberId();
+  const memberId = useMemberId();
   const channelId = useChannelId();
   const workspaceId = useWorkspaceId();
 
@@ -63,10 +63,10 @@ export const WorkspaceSidebar = () => {
         workspace={workspace}
         isAdmin={member.role === "admin"}
       />
-      <div className="flex flex-col px-2 mt-3">
+      {/* <div className="flex flex-col px-2 mt-3">
         <SidebarItem label="Threads" icon={MessageSquareText} id="therads" />
         <SidebarItem label="Drafts & Sent" icon={SendHorizonal} id="drafts" />
-      </div>
+      </div> */}
       <WorkspaceSection
         label="Channels"
         hint="New channel"
