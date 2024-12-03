@@ -28,6 +28,7 @@ export const JoinWorkspaceModal = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    handleClose();
     router.push(`${name}`);
   };
 
@@ -51,7 +52,7 @@ export const JoinWorkspaceModal = () => {
             required
             autoFocus
             minLength={3}
-            placeholder="Workspace Name e.g. 'work', 'Personal', 'Team'"
+            placeholder="Join Link e.g. http:/join/k1723hsz1xbckcxk77f4fed63975j7xw"
           />
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <Button disabled={false} type="submit">
