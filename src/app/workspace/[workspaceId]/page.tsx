@@ -59,7 +59,9 @@ const WorkspaceIdPage = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
 
   if (isLoading) {
-    return <div>加载中...</div>;
+    return <div className="h-full flex-1 items-center justify-center flex-col gap-2">
+    <Loader className="size-6 animate-spin text-muted-foreground" />
+  </div>;
   }
 
   if (!isAuthenticated) {
