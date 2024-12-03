@@ -9,7 +9,7 @@ const populateThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
     const messages = await ctx.db.query("messages").withIndex("by_parent_message_id", (q) => q.eq("parentMessageId", messageId)).collect();
     if (messages.length === 0) {
         return {
-            cout: 0,
+            count: 0,
             image: undefined,
             timestamp: 0,
         };
@@ -25,7 +25,7 @@ const populateThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
     }
     const lastMessageUser = await populateUser(ctx, lastMessageMember.userId);
     return {
-        cout: messages.length,
+        count: messages.length,
         image: lastMessageUser?.image,
         timestamp: lastMessage._creationTime,
     }

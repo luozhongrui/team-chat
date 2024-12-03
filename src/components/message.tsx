@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { useConfirm } from "@/hooks/use-confirm";
 import { usePanel } from "@/hooks/use-panel";
 import { useQueryState } from "nuqs";
+import { ThreadBar } from "./thread-bar";
 
 const Editor = dynamic(() => import("@/components/editor"), { ssr: false });
 
@@ -176,6 +177,12 @@ export const Message = ({
                   </span>
                 ) : null}
                 <Reactions data={reactions} onChange={handleReaction} />
+                <ThreadBar
+                  count={threadCount}
+                  image={threadImage}
+                  timestamp={threadTimestamp}
+                  onClick={() => onOpenMessage(id)}
+                />
               </div>
             )}
           </div>
@@ -245,6 +252,12 @@ export const Message = ({
                 <span className="text-xs text-muted-foreground">(edited)</span>
               ) : null}
               <Reactions data={reactions} onChange={handleReaction} />
+              <ThreadBar
+                count={threadCount}
+                image={threadImage}
+                timestamp={threadTimestamp}
+                onClick={() => onOpenMessage(id)}
+              />
             </div>
           )}
         </div>
